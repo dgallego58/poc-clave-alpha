@@ -1,0 +1,68 @@
+name: $(Build.SourceBranchName).$(date:yyyyMMdd)$(rev:.r)
+
+variables:
+  - name: 'Artifactory.Repository'
+    value: 'build-poc-clave-alpha'
+  - name: 'Artifact.Name'
+    value: 'poc-clave-alpha'
+
+resources:
+  - repo: self
+    clean: true
+
+trigger:
+  branches:
+    include:
+      - master
+      - trunk
+      - main
+      - feature/*
+
+stages:
+- stage: CI
+  jobs:
+  - job: build
+    displayName: 'Build'
+    pool:
+      name: Build
+      demands:
+        - java
+    steps:
+    - task: SonarQubePrepare@5
+      displayName: 'Prepare analysis on SonarQube'
+      inputs:
+        SonarQube: SonarQube
+        scannerMode: Other
+        extraProperties: |
+          sonar.projectKey=$(Build.Repository.Name)
+          sonar.projectName=$(Build.Repository.Name)
+          sonar.projectVersion=$(Build.BuildNumber)
+
+    - task: Gradle@3
+      displayName: 'Build and Test'
+      inputs:
+        workingDirectory: .
+        gradleWrapperFile: gradlew
+        tasks: 'clean build jacocoMergedReport'
+        publishJUnitResults: true
+        testResultsFiles: '**/TEST-*.xml'
+        sonarQubeRunAnalysis: true
+        sqGradlePluginVersionChoice: 'build'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage'
+      inputs:
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/build/reports/jacocoMergedReport/jacocoMergedReport.xml'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/build/reports/jacocoMergedReport/html'
+
+    - task: Sonar-buildbreaker@8
+      displayName: 'Quality Gate'
+      inputs:
+        SonarQube: SonarQube
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      condition: in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/trunk', 'refs/heads/master')
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/applications/app-service/build/libs/'
+        ArtifactName: '$(Artifact.Name)'
