@@ -7,8 +7,6 @@ import lombok.extern.jackson.Jacksonized;
 @Builder(toBuilder = true)
 @Getter
 @Jacksonized
-public class ConfirmSignUpDao {
-
-    private final String username;
-    private final String confirmationCode;
+public class ConfirmationState {
+    private final boolean success;
 }

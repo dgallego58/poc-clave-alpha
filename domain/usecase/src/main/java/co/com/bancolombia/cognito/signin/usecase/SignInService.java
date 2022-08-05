@@ -2,7 +2,8 @@ package co.com.bancolombia.cognito.signin.usecase;
 
 import co.com.bancolombia.cognito.signin.contract.SignInUseCase;
 import co.com.bancolombia.cognito.signin.gateways.SignInRepository;
-import co.com.bancolombia.cognito.signin.model.SignInDao;
+import co.com.bancolombia.cognito.signin.model.SignInResponseVO;
+import co.com.bancolombia.cognito.signin.model.SignInVO;
 
 public class SignInService implements SignInUseCase {
 
@@ -13,8 +14,8 @@ public class SignInService implements SignInUseCase {
     }
 
     @Override
-    public Object startSignInFlow(SignInDao signInDao) {
-        return signInRepository.startSignInFlow(signInDao);
+    public SignInResponseVO startSignInFlow(SignInVO signInVO) {
+        return signInRepository.startSignInFlow(signInVO);
     }
 
 }

@@ -1,7 +1,8 @@
 package co.com.bancolombia.cognito.signin;
 
 import co.com.bancolombia.cognito.signin.contract.SignInUseCase;
-import co.com.bancolombia.cognito.signin.model.SignInDao;
+import co.com.bancolombia.cognito.signin.model.SignInResponseVO;
+import co.com.bancolombia.cognito.signin.model.SignInVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class SignInRestController {
     }
 
     @PostMapping(path = "/access")
-    public ResponseEntity<?> startLoginFlow(@RequestBody SignInDao body) {
+    public ResponseEntity<SignInResponseVO> startLoginFlow(@RequestBody SignInVO body) {
         return ResponseEntity.ok(signInUseCase.startSignInFlow(body));
     }
 }

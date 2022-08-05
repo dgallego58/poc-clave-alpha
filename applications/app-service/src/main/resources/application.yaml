@@ -6,4 +6,12 @@ server:
 spring:
   application:
     name: poc-alphanumeric-key
-
+  main:
+    web-application-type: reactive
+  sleuth:
+    propagation:
+      type: aws
+    reactor:
+      instrumentation-type: decorate_queues
+  webflux:
+    base-path: /alphanumeric-key

@@ -1,8 +1,9 @@
 package co.com.bancolombia.cognito.signin.gateways;
 
-import co.com.bancolombia.cognito.signin.model.SignInDao;
+import co.com.bancolombia.cognito.signin.model.SignInResponseVO;
+import co.com.bancolombia.cognito.signin.model.SignInVO;
 
 public interface SignInRepository {
 
-    Object startSignInFlow(SignInDao signInDao);
+    SignInResponseVO startSignInFlow(SignInVO signInVO);
 }

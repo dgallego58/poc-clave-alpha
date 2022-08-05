@@ -1,11 +1,16 @@
 package co.com.bancolombia.cognito.signup.contract;
 
-import co.com.bancolombia.cognito.signup.model.ConfirmSignUpDao;
-import co.com.bancolombia.cognito.signup.model.SignUpDao;
+import co.com.bancolombia.cognito.signup.model.ConfirmSignUpVO;
+import co.com.bancolombia.cognito.signup.model.ConfirmationState;
+import co.com.bancolombia.cognito.signup.model.SignUpResponseVO;
+import co.com.bancolombia.cognito.signup.model.SignUpVO;
+import reactor.core.publisher.Mono;
 
 public interface SignUpUseCase {
 
-    Object startSignUpFlow(SignUpDao signUpDao);
+    SignUpResponseVO startSignUpFlow(SignUpVO signUpVO);
 
-    Object confirmSignUp(ConfirmSignUpDao confirmSignUpDao);
+    ConfirmationState confirmSignUp(ConfirmSignUpVO confirmSignUpVO);
+
+    Mono<SignUpResponseVO> reactiveSignUpFlow(SignUpVO signUpVO);
 }

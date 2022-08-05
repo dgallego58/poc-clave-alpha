@@ -2,8 +2,11 @@ package co.com.bancolombia.cognito.signup.usecase;
 
 import co.com.bancolombia.cognito.signup.contract.SignUpUseCase;
 import co.com.bancolombia.cognito.signup.gateways.SignUpRepository;
-import co.com.bancolombia.cognito.signup.model.ConfirmSignUpDao;
-import co.com.bancolombia.cognito.signup.model.SignUpDao;
+import co.com.bancolombia.cognito.signup.model.ConfirmSignUpVO;
+import co.com.bancolombia.cognito.signup.model.ConfirmationState;
+import co.com.bancolombia.cognito.signup.model.SignUpResponseVO;
+import co.com.bancolombia.cognito.signup.model.SignUpVO;
+import reactor.core.publisher.Mono;
 
 public class SignUpService implements SignUpUseCase {
 
@@ -14,12 +17,17 @@ public class SignUpService implements SignUpUseCase {
     }
 
     @Override
-    public Object startSignUpFlow(SignUpDao signUp) {
+    public SignUpResponseVO startSignUpFlow(SignUpVO signUp) {
         return signUpRepository.signUp(signUp);
     }
 
     @Override
-    public Object confirmSignUp(final ConfirmSignUpDao confirmSignUpDao) {
-        return signUpRepository.confirmSignUp(confirmSignUpDao);
+    public ConfirmationState confirmSignUp(final ConfirmSignUpVO confirmSignUpVO) {
+        return signUpRepository.confirmSignUp(confirmSignUpVO);
+    }
+
+    @Override
+    public Mono<SignUpResponseVO> reactiveSignUpFlow(final SignUpVO signUpVO) {
+        return signUpRepository.asyncSignUp(signUpVO);
     }
 }

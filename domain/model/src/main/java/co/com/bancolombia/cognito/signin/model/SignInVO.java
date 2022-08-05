@@ -9,7 +9,7 @@ import java.util.Map;
 @SuperBuilder(toBuilder = true)
 @Jacksonized
 @Getter
-public class SignInDao {
+public class SignInVO {
 
     private final String username;
     private final String password;

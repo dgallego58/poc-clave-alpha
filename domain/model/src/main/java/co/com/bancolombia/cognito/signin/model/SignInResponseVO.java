@@ -8,7 +8,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder(toBuilder = true)
 @Jacksonized
 @Getter
-public class SignInResponse {
+public class SignInResponseVO {
 
     private final String type;
     private final String accessToken;

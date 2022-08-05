@@ -1,6 +1,6 @@
 package co.com.bancolombia.cognito.signup.model;
 
-import co.com.bancolombia.cognito.signin.model.SignInDao;
+import co.com.bancolombia.cognito.signin.model.SignInVO;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
@@ -8,7 +8,7 @@ import lombok.extern.jackson.Jacksonized;
 @SuperBuilder(toBuilder = true)
 @Jacksonized
 @Getter
-public class SignUpDao extends SignInDao {
+public class SignUpVO extends SignInVO {
 
     private final String email;
 
